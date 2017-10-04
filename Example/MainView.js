@@ -12,9 +12,9 @@ var getAdID = function() {
 	});
 };
 
-var getDeviceID = function() {
+var getAppDeviceID = function() {
 	console.log("getID Called");
-	IDs.deviceID().then(function(result) {
+	IDs.appDeviceID().then(function(result) {
 		console.log("ID: " + result);
 		info.value = result;
 	}).catch(function(e) {
@@ -24,6 +24,6 @@ var getDeviceID = function() {
 
 module.exports = {
 	getAdID: getAdID,
-	getDeviceID: getDeviceID,
+	getAppDeviceID: getAppDeviceID,
 	info: info
 };

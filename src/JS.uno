@@ -22,13 +22,13 @@ namespace Fuse.IDInternals
         {
             if(_instance != null) return;
             Uno.UX.Resource.SetGlobalKey(_instance = this, "FuseJS/IDs");
-            AddMember(new NativePromise<string, string>("deviceID", GetDeviceID));
+            AddMember(new NativePromise<string, string>("appDeviceID", GetAppDeviceID));
             AddMember(new NativePromise<string, string>("adID", GetAdID));
         }
 
-        static Future<string> GetDeviceID(object[] args)
+        static Future<string> GetAppDeviceID(object[] args)
         {
-            return new DeviceIDRequest();
+            return new AppDeviceIDRequest();
         }
 
         static Future<string> GetAdID(object[] args)

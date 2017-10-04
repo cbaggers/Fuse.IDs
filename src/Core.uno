@@ -77,15 +77,15 @@ namespace Fuse.IDInternals
     }
 
     extern(Android)
-    class DeviceIDRequest : Promise<string>
+    class AppDeviceIDRequest : Promise<string>
     {
-        public DeviceIDRequest()
+        public AppDeviceIDRequest()
         {
-            Resolve(DeviceID());
+            Resolve(AppDeviceID());
         }
 
         [Foreign(Language.Java)]
-        string DeviceID()
+        string AppDeviceID()
         @{
             return android.provider.Settings.Secure.getString(com.fuse.Activity.getRootActivity().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
         @}
@@ -94,17 +94,17 @@ namespace Fuse.IDInternals
     }
 
     extern(iOS)
-    class DeviceIDRequest : Promise<string>
+    class AppDeviceIDRequest : Promise<string>
     {
-        public DeviceIDRequest()
+        public AppDeviceIDRequest()
         {
-            Resolve(DeviceID());
+            Resolve(AppDeviceID());
         }
 
 
         [Require("Source.Include", "Foundation/Foundation.h")]
         [Foreign(Language.ObjC)]
-        public static string DeviceID()
+        public static string AppDeviceID()
         @{
             // This ID is unique for the app vendor on that device, it
             // will change if the app is uninstalled & reinstalled
@@ -113,11 +113,11 @@ namespace Fuse.IDInternals
     }
 
     extern(!MOBILE)
-    class DeviceIDRequest : Promise<string>
+    class AppDeviceIDRequest : Promise<string>
     {
-        public DeviceIDRequest()
+        public AppDeviceIDRequest()
         {
-            Reject(new Exception("DeviceIDRequest is not implemented on this platform"));
+            Reject(new Exception("AppDeviceIDRequest is not implemented on this platform"));
         }
     }
 }
@@ -131,9 +131,9 @@ namespace Fuse
             return new IDInternals.AdIDRequest();
         }
 
-        public static Future<string> DeviceID()
+        public static Future<string> AppDeviceID()
         {
-            return new IDInternals.DeviceIDRequest();
+            return new IDInternals.AppDeviceIDRequest();
         }
     }
 }

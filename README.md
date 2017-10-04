@@ -19,7 +19,7 @@ IDs.adID().then(function(result) {
 
 ...
 
-IDs.deviceID().then(function(result) {
+IDs.appDeviceID().then(function(result) {
     console.log("ID: " + result);
 }).catch(function(e) {
     info.value = "Fetch Failed:\n" + e;
@@ -36,7 +36,7 @@ void SomeTest()
 
 void SomeOtherTest()
 {
-    Fuse.IDs.DeviceID().Then(Show)
+    Fuse.IDs.AppDeviceID().Then(Show)
 }
 
 void Show(string id)

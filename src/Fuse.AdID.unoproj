@@ -1,0 +1,10 @@
+{
+  "Packages": [
+    "Fuse.Scripting",
+    "Fuse.Reactive",
+    "Uno.Threading"
+  ],
+  "Includes": [
+    "*"
+  ]
+}

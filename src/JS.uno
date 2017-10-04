@@ -9,23 +9,29 @@ using Fuse;
 using Fuse.Scripting;
 using Fuse.Reactive;
 
-namespace Fuse.AdIDInternals
+namespace Fuse.IDInternals
 {
     /**
     */
     [UXGlobalModule]
-    public sealed class AdIDModule : NativeModule
+    public sealed class IDModule : NativeModule
     {
-        static readonly AdIDModule _instance;
+        static readonly IDModule _instance;
 
-        public AdIDModule()
+        public IDModule()
         {
             if(_instance != null) return;
-            Uno.UX.Resource.SetGlobalKey(_instance = this, "FuseJS/AdID");
-            AddMember(new NativePromise<string, string>("get", GetID));
+            Uno.UX.Resource.SetGlobalKey(_instance = this, "FuseJS/IDs");
+            AddMember(new NativePromise<string, string>("deviceID", GetDeviceID));
+            AddMember(new NativePromise<string, string>("adID", GetAdID));
         }
 
-        static Future<string> GetID(object[] args)
+        static Future<string> GetDeviceID(object[] args)
+        {
+            return new DeviceIDRequest();
+        }
+
+        static Future<string> GetAdID(object[] args)
         {
             return new AdIDRequest();
         }

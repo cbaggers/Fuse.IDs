@@ -10,8 +10,10 @@
         <StackPanel Width="90%" Height="90%" Padding="20">
             <Rectangle Layer="Background" CornerRadius="10" Color="#fff"/>
             <Text Value="AdID Test" Alignment="Center" FontSize="35" TextColor="#2586EC"/>
-            <Basic.Button Text="Get Advertisement ID" Clicked="{getID}" />
+            <Basic.Button Text="Get Advertisement ID" Clicked="{getAdID}" />
+            <Basic.Button Text="Get Device ID" Clicked="{getDeviceID}" />
             <TextView Value="{info}" Height="200" TextWrapping="Wrap"/>
+
         </StackPanel>
     </DockPanel>
 </App>

@@ -4,7 +4,7 @@ using Uno.Threading;
 using Uno.Collections;
 using Uno.Compiler.ExportTargetInterop;
 
-namespace Fuse.AdIDInternals
+namespace Fuse.IDInternals
 {
     extern(Android)
     class AdIDRequest : Promise<string>
@@ -56,13 +56,14 @@ namespace Fuse.AdIDInternals
             Resolve(AdID());
         }
 
-        [Require("Source.Include", "Foundation/Foundation.h")]
+
+        [Require("Xcode.Framework", "AdSupport")]
+        [Require("Source.Declaration", "#include <AdSupport/ASIdentifierManager.h>")]
         [Foreign(Language.ObjC)]
         public static string AdID()
         @{
-            // This ID is unique for the app vendor on that device, it
-            // will change if the app is uninstalled & reinstalled
-            return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+            NSUUID *adId = [[ASIdentifierManager sharedManager] advertisingIdentifier];
+            return [adId UUIDString];
         @}
     }
 
@@ -74,15 +75,65 @@ namespace Fuse.AdIDInternals
             Reject(new Exception("AdIDRequest is not implemented on this platform"));
         }
     }
+
+    extern(Android)
+    class DeviceIDRequest : Promise<string>
+    {
+        public DeviceIDRequest()
+        {
+            Resolve(DeviceID());
+        }
+
+        [Foreign(Language.Java)]
+        string DeviceID()
+        @{
+            return android.provider.Settings.Secure.getString(com.fuse.Activity.getRootActivity().getContentResolver(), android.provider.Settings.Secure.ANDROID_ID);
+        @}
+
+        void Reject(string reason) { Reject(new Exception(reason)); }
+    }
+
+    extern(iOS)
+    class DeviceIDRequest : Promise<string>
+    {
+        public DeviceIDRequest()
+        {
+            Resolve(DeviceID());
+        }
+
+
+        [Require("Source.Include", "Foundation/Foundation.h")]
+        [Foreign(Language.ObjC)]
+        public static string DeviceID()
+        @{
+            // This ID is unique for the app vendor on that device, it
+            // will change if the app is uninstalled & reinstalled
+            return [[[UIDevice currentDevice] identifierForVendor] UUIDString];
+        @}
+    }
+
+    extern(!MOBILE)
+    class DeviceIDRequest : Promise<string>
+    {
+        public DeviceIDRequest()
+        {
+            Reject(new Exception("DeviceIDRequest is not implemented on this platform"));
+        }
+    }
 }
 
 namespace Fuse
 {
-    public static class AdID
+    public static class IDs
     {
-        public static Future<string> Get()
+        public static Future<string> AdID()
         {
-            return new AdIDInternals.AdIDRequest();
+            return new IDInternals.AdIDRequest();
+        }
+
+        public static Future<string> DeviceID()
+        {
+            return new IDInternals.DeviceIDRequest();
         }
     }
 }

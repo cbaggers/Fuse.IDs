@@ -2,6 +2,10 @@
 
 Get the IDs for the device.
 
+The `AdID` is the advertising ID. It may be the same across multiple devices and can be reset at any time by the user.
+
+The `AppDeviceID` is an ID that is unique to (at least) that app vendor on that device. It can change if all apps by that vendor are uninstalled and then reinstalled.
+
 ## Usage
 
 ### From JS
